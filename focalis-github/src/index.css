@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", system-ui, "Segoe UI", Roboto, sans-serif;
+
+  /* Neutral scale — gris frais, cohérent avec le charbon du logo */
+  --color-neutral-50: #f7f7f8;
+  --color-neutral-100: #eeeef1;
+  --color-neutral-200: #dfdfe4;
+  --color-neutral-300: #c5c5cc;
+  --color-neutral-400: #9c9ca6;
+  --color-neutral-500: #71717b;
+  --color-neutral-600: #52525c;
+  --color-neutral-700: #3d3d46;
+  --color-neutral-800: #26262e;
+  --color-neutral-900: #16161a;
+
+  /* Accent — orange du logo */
+  --color-accent-50: #fff3e9;
+  --color-accent-100: #ffe2c7;
+  --color-accent-300: #ffb067;
+  --color-accent-400: #ff9c4b;
+  --color-accent-500: #f2762a;
+  --color-accent-600: #d85f18;
+  --color-accent-700: #b04a12;
+
+  /* Charbon marine du logo — surfaces sombres (header, nav, dials) */
+  --color-dark-700: #45454f;
+  --color-dark-800: #34343c;
+  --color-dark-900: #201f24;
+
+  --color-success-500: #2f9e5b;
+  --color-warning-500: #d99a1b;
+  --color-danger-500: #d43f3f;
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  background: var(--color-neutral-50);
+  /* Tailles en vmax (pas en px) : les deux halos gardent des proportions cohérentes
+     qu'on soit en portrait ou en paysage, plutôt qu'un cercle fixe trop grand une fois
+     la hauteur d'écran réduite. */
+  background-image:
+    radial-gradient(min(600px, 65vmax) circle at 15% -5%, color-mix(in srgb, var(--color-accent-400) 14%, transparent), transparent 60%),
+    radial-gradient(min(500px, 55vmax) circle at 100% 10%, color-mix(in srgb, var(--color-dark-800) 6%, transparent), transparent 55%);
+  /* background-attachment: fixed est mal supporté sur Safari iOS et peut perturber
+     le rendu d'autres éléments position:fixed sur la page — on s'en passe. */
+  color: var(--color-neutral-900);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100svh;
+}
+
+button, a, input, select, textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@keyframes pop-in {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+@keyframes fade-slide-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sheet-slide-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes overlay-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-pop-in {
+  animation: pop-in 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.animate-fade-slide-in {
+  animation: fade-slide-in 0.28s ease-out both;
+}
+
+/* Opacité seule, sans transform : ne crée pas de containing block pour les descendants `fixed`. */
+.animate-fade-in {
+  animation: overlay-fade-in 0.22s ease-out both;
+}
+
+.animate-sheet-slide-up {
+  animation: sheet-slide-up 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-overlay-fade-in {
+  animation: overlay-fade-in 0.2s ease-out both;
+}
+
+.gradient-accent {
+  background-image: linear-gradient(135deg, var(--color-accent-400), var(--color-accent-600));
+}
+
+.gradient-dark {
+  background-image: linear-gradient(160deg, var(--color-dark-700), var(--color-dark-900));
+}
+
+.glass-surface {
+  background: color-mix(in srgb, white 78%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
